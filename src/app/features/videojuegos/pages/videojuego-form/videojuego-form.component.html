@@ -1,0 +1,98 @@
+<main class="page-shell form-shell">
+  <section class="form-panel">
+    <div class="form-heading">
+      <a class="back-link" routerLink="/videojuegos">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+        <span>Volver</span>
+      </a>
+      <h1>{{ esEdicion() ? 'Editar Videojuego' : 'Nuevo Videojuego' }}</h1>
+      <p>
+        {{
+          esEdicion()
+            ? 'Actualiza los datos del videojuego seleccionado.'
+            : 'Registra un título nuevo en el inventario.'
+        }}
+      </p>
+    </div>
+
+    <form class="app-form" [formGroup]="form" (ngSubmit)="guardar()">
+      @if (esEdicion()) {
+        <div class="form-field">
+          <label for="identificador">ID</label>
+          <input pInputText id="identificador" type="text" [value]="id()" disabled />
+        </div>
+      }
+
+      <div class="form-field">
+        <label for="titulo">Título</label>
+        <input
+          pInputText
+          id="titulo"
+          formControlName="titulo"
+          placeholder="Ej. Mario Kart"
+          maxlength="25"
+          autocomplete="off"
+        />
+        @if (form.controls.titulo.touched && form.controls.titulo.hasError('required')) {
+          <div class="field-error">El título es obligatorio.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="plataforma">Plataforma</label>
+        <p-select
+          inputId="plataforma"
+          formControlName="plataformaId"
+          [options]="plataformas()"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Selecciona una plataforma"
+          [showClear]="true"
+          appendTo="body"
+        >
+          <ng-template pTemplate="item" let-plataforma>
+            <div class="platform-option">
+              <span class="platform-name">{{ plataforma.nombre }}</span>
+              @if (plataforma.compania) {
+                <span class="platform-company">{{ plataforma.compania }}</span>
+              }
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+
+      <div class="form-field">
+        <label for="inventario">Inventario</label>
+        <input
+          pInputText
+          id="inventario"
+          type="number"
+          formControlName="inventario"
+          min="0"
+          step="1"
+          placeholder="Ej. 10"
+        />
+        @if (form.controls.inventario.touched && form.controls.inventario.invalid) {
+          <div class="field-error">Indica un inventario igual o mayor que cero.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="submit"
+          [label]="esEdicion() ? 'Actualizar' : 'Insertar'"
+          [icon]="esEdicion() ? 'pi pi-check' : 'pi pi-plus'"
+          styleClass="app-btn-primary"
+          [loading]="guardando()"
+          [disabled]="cargando()"
+        />
+        <p-button
+          type="button"
+          label="Cancelar"
+          styleClass="app-btn-secondary"
+          routerLink="/videojuegos"
+        />
+      </div>
+    </form>
+  </section>
+</main>

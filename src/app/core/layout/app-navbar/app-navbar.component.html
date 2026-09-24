@@ -1,0 +1,31 @@
+<nav class="app-navbar">
+  <div class="nav-brand">
+    <span class="brand-text">Tienda Videojuegos</span>
+    <button
+      class="navbar-toggle"
+      type="button"
+      aria-label="Mostrar navegación"
+      aria-controls="navbarLinks"
+      [attr.aria-expanded]="menuAbierto()"
+      (click)="alternarMenu()"
+    >
+      <i class="pi" [class.pi-bars]="!menuAbierto()" [class.pi-times]="menuAbierto()"></i>
+    </button>
+  </div>
+
+  <div class="nav-links" id="navbarLinks" [class.is-open]="menuAbierto()">
+    <a
+      class="nav-link"
+      routerLink="/videojuegos"
+      routerLinkActive="is-active"
+      (click)="cerrarMenu()"
+      >Videojuegos</a
+    >
+
+    @for (seccion of seccionesPendientes; track seccion) {
+      <span class="nav-link is-pending" title="Disponible por ahora solo en las pantallas JSP">{{
+        seccion
+      }}</span>
+    }
+  </div>
+</nav>

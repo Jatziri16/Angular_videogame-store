@@ -1,0 +1,103 @@
+<main class="page-shell">
+  <section class="games-panel">
+    <div class="panel-heading">
+      <div>
+        <h1>Videojuegos</h1>
+        <p>Inventario general de títulos registrados</p>
+      </div>
+      <div class="toolbar-actions">
+        <p-button
+          label="Agregar Videojuego"
+          icon="pi pi-plus"
+          styleClass="app-btn-primary"
+          routerLink="/videojuegos/nuevo"
+        />
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <p-table
+        [value]="videojuegos()"
+        [loading]="cargando()"
+        [rows]="10"
+        [paginator]="videojuegos().length > 10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        dataKey="id"
+        styleClass="app-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="col-order">#</th>
+            <th class="col-id">ID</th>
+            <th>Nombre</th>
+            <th>Plataforma</th>
+            <th>Inventario</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-videojuego let-indice="rowIndex">
+          <tr>
+            <td class="col-order">
+              <span class="id-pill">{{ indice + 1 }}</span>
+            </td>
+            <td class="col-id">{{ videojuego.id }}</td>
+            <td class="game-title">{{ videojuego.titulo }}</td>
+            <td>
+              @if (plataformaDe(videojuego); as plataforma) {
+                <div class="platform-name">#{{ plataforma.id }} - {{ plataforma.nombre }}</div>
+                @if (plataforma.compania) {
+                  <div class="platform-company">{{ plataforma.compania }}</div>
+                }
+              } @else {
+                <span class="platform-company">Sin plataforma asignada</span>
+              }
+            </td>
+            <td>
+              <span class="stock-badge" [class.is-empty]="videojuego.inventario === 0">
+                {{ videojuego.inventario }} disponibles
+              </span>
+            </td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <p-button
+                  icon="pi pi-pencil"
+                  styleClass="app-btn-icon"
+                  ariaLabel="Editar videojuego"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  [routerLink]="['/videojuegos', videojuego.id, 'editar']"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  styleClass="app-btn-icon is-danger"
+                  ariaLabel="Eliminar videojuego"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="confirmarEliminacion(videojuego)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <h2>No hay videojuegos registrados</h2>
+                <p>Agrega el primer título para empezar a construir el inventario.</p>
+                <p-button
+                  label="Agregar Videojuego"
+                  icon="pi pi-plus"
+                  styleClass="app-btn-primary"
+                  routerLink="/videojuegos/nuevo"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</main>
