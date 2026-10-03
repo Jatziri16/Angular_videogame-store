@@ -1,0 +1,102 @@
+<main class="page-shell">
+  <section class="games-panel">
+    <div class="panel-heading">
+      <div>
+        <h1>Proveedores</h1>
+        <p>Directorio de contactos y datos comerciales registrados</p>
+      </div>
+      <div class="toolbar-actions">
+        <p-button
+          label="Agregar Proveedor"
+          icon="pi pi-plus"
+          styleClass="app-btn-primary"
+          routerLink="/proveedores/nuevo"
+        />
+      </div>
+    </div>
+
+    <div class="table-wrapper is-wide">
+      <p-table
+        [value]="proveedores()"
+        [loading]="cargando()"
+        [rows]="10"
+        [paginator]="proveedores().length > 10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        dataKey="id"
+        styleClass="app-table suppliers-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="col-order">#</th>
+            <th class="col-id">ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-proveedor let-indice="rowIndex">
+          <tr>
+            <td class="col-order">
+              <span class="id-pill">{{ indice + 1 }}</span>
+            </td>
+            <td class="col-id">{{ proveedor.id }}</td>
+            <td class="game-title">{{ proveedor.nombre }}</td>
+            <td>
+              <span class="muted-value">{{ textoDe(proveedor.email, 'Sin email') }}</span>
+            </td>
+            <td>
+              <span class="muted-value">{{ textoDe(proveedor.direccion, 'Sin dirección') }}</span>
+            </td>
+            <td>
+              @if (proveedor.telefono?.trim()) {
+                <span class="stock-badge neutral-badge">{{ proveedor.telefono }}</span>
+              } @else {
+                <span class="muted-value">Sin teléfono</span>
+              }
+            </td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <p-button
+                  icon="pi pi-pencil"
+                  styleClass="app-btn-icon"
+                  ariaLabel="Editar proveedor"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  [routerLink]="['/proveedores', proveedor.id, 'editar']"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  styleClass="app-btn-icon is-danger"
+                  ariaLabel="Eliminar proveedor"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="confirmarEliminacion(proveedor)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <h2>No hay proveedores registrados</h2>
+                <p>Agrega el primer proveedor para completar el directorio.</p>
+                <p-button
+                  label="Agregar Proveedor"
+                  icon="pi pi-plus"
+                  styleClass="app-btn-primary"
+                  routerLink="/proveedores/nuevo"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</main>

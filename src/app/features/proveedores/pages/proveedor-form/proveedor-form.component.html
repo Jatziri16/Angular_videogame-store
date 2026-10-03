@@ -1,0 +1,111 @@
+<main class="page-shell form-shell">
+  <section class="form-panel">
+    <div class="form-heading">
+      <a class="back-link" routerLink="/proveedores">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+        <span>Volver</span>
+      </a>
+      <h1>{{ esEdicion() ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h1>
+      <p>
+        {{
+          esEdicion()
+            ? 'Actualiza los datos del proveedor seleccionado.'
+            : 'Registra un nuevo proveedor para el inventario.'
+        }}
+      </p>
+    </div>
+
+    <form class="app-form" [formGroup]="form" (ngSubmit)="guardar()">
+      @if (esEdicion()) {
+        <div class="form-field">
+          <label for="identificador">ID</label>
+          <input pInputText id="identificador" type="text" [value]="id()" disabled />
+        </div>
+      }
+
+      <div class="form-field">
+        <label for="nombre">Nombre</label>
+        <input
+          pInputText
+          id="nombre"
+          formControlName="nombre"
+          placeholder="Ej. Nintendo"
+          maxlength="60"
+          autocomplete="off"
+        />
+        @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+          <div class="field-error">El nombre es obligatorio.</div>
+        }
+        @if (form.controls.nombre.touched && form.controls.nombre.hasError('maxlength')) {
+          <div class="field-error">El nombre admite hasta 60 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          pInputText
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="correo@empresa.com"
+          maxlength="100"
+          autocomplete="off"
+        />
+        @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+          <div class="field-error">Ingresa un correo válido.</div>
+        }
+        @if (form.controls.email.touched && form.controls.email.hasError('maxlength')) {
+          <div class="field-error">El correo admite hasta 100 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="telefono">Teléfono</label>
+        <input
+          pInputText
+          id="telefono"
+          formControlName="telefono"
+          placeholder="Ej. 8189098899"
+          maxlength="20"
+          autocomplete="off"
+        />
+        @if (form.controls.telefono.touched && form.controls.telefono.hasError('maxlength')) {
+          <div class="field-error">El teléfono admite hasta 20 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="direccion">Dirección</label>
+        <input
+          pInputText
+          id="direccion"
+          formControlName="direccion"
+          placeholder="Dirección del proveedor"
+          maxlength="150"
+          autocomplete="off"
+        />
+        @if (form.controls.direccion.touched && form.controls.direccion.hasError('maxlength')) {
+          <div class="field-error">La dirección admite hasta 150 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="submit"
+          [label]="esEdicion() ? 'Actualizar' : 'Insertar'"
+          [icon]="esEdicion() ? 'pi pi-check' : 'pi pi-plus'"
+          styleClass="app-btn-primary"
+          [loading]="guardando()"
+          [disabled]="cargando()"
+        />
+        <p-button
+          type="button"
+          label="Cancelar"
+          styleClass="app-btn-secondary"
+          routerLink="/proveedores"
+        />
+      </div>
+    </form>
+  </section>
+</main>
