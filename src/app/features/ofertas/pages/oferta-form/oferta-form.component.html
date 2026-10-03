@@ -1,0 +1,144 @@
+<main class="page-shell form-shell">
+  <section class="form-panel">
+    <div class="form-heading">
+      <a class="back-link" routerLink="/ofertas">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+        <span>Volver</span>
+      </a>
+      <h1>{{ esEdicion() ? 'Editar Oferta' : 'Nueva Oferta' }}</h1>
+      <p>
+        {{
+          esEdicion()
+            ? 'Actualiza precios y existencias de la oferta seleccionada.'
+            : 'Registra el precio y disponibilidad de un videojuego por proveedor.'
+        }}
+      </p>
+    </div>
+
+    <form class="app-form" [formGroup]="form" (ngSubmit)="guardar()">
+      @if (esEdicion()) {
+        <div class="form-field">
+          <label for="identificador">ID</label>
+          <input pInputText id="identificador" type="text" [value]="id()" disabled />
+        </div>
+      }
+
+      <div class="form-field">
+        <label for="videojuego">Videojuego</label>
+        <p-select
+          inputId="videojuego"
+          formControlName="videojuegoId"
+          [options]="videojuegos()"
+          optionLabel="titulo"
+          optionValue="id"
+          placeholder="Selecciona un videojuego"
+          appendTo="body"
+        />
+        @if (form.controls.videojuegoId.touched && form.controls.videojuegoId.hasError('required')) {
+          <div class="field-error">Selecciona un videojuego.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="proveedor">Proveedor</label>
+        <p-select
+          inputId="proveedor"
+          formControlName="proveedorId"
+          [options]="proveedores()"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Selecciona un proveedor"
+          appendTo="body"
+        />
+        @if (form.controls.proveedorId.touched && form.controls.proveedorId.hasError('required')) {
+          <div class="field-error">Selecciona un proveedor.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="plataformaCalculada">Plataforma</label>
+        <input pInputText id="plataformaCalculada" type="text" [value]="plataformaSeleccionada()" readonly />
+      </div>
+
+      <div class="form-field">
+        <label for="precioCompra">Precio compra</label>
+        <input
+          pInputText
+          id="precioCompra"
+          type="number"
+          formControlName="precioCompra"
+          min="0"
+          max="999999.99"
+          step="0.01"
+          placeholder="0.00"
+        />
+        @if (form.controls.precioCompra.touched && form.controls.precioCompra.hasError('required')) {
+          <div class="field-error">El precio de compra es obligatorio.</div>
+        }
+        @if (
+          form.controls.precioCompra.touched &&
+          (form.controls.precioCompra.hasError('min') || form.controls.precioCompra.hasError('max'))
+        ) {
+          <div class="field-error">Indica un precio de compra entre 0 y 999999.99.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="precioVenta">Precio venta</label>
+        <input
+          pInputText
+          id="precioVenta"
+          type="number"
+          formControlName="precioVenta"
+          min="0"
+          max="999999.99"
+          step="0.01"
+          placeholder="0.00"
+        />
+        @if (form.controls.precioVenta.touched && form.controls.precioVenta.hasError('required')) {
+          <div class="field-error">El precio de venta es obligatorio.</div>
+        }
+        @if (
+          form.controls.precioVenta.touched &&
+          (form.controls.precioVenta.hasError('min') || form.controls.precioVenta.hasError('max'))
+        ) {
+          <div class="field-error">Indica un precio de venta entre 0 y 999999.99.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="cantidad">Cantidad</label>
+        <input
+          pInputText
+          id="cantidad"
+          type="number"
+          formControlName="cantidad"
+          min="0"
+          step="1"
+          placeholder="0"
+        />
+        @if (form.controls.cantidad.touched && form.controls.cantidad.hasError('required')) {
+          <div class="field-error">La cantidad es obligatoria.</div>
+        }
+        @if (
+          form.controls.cantidad.touched &&
+          (form.controls.cantidad.hasError('min') || form.controls.cantidad.hasError('entero'))
+        ) {
+          <div class="field-error">Indica una cantidad entera igual o mayor que cero.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="submit"
+          [label]="esEdicion() ? 'Actualizar' : 'Insertar'"
+          [icon]="esEdicion() ? 'pi pi-check' : 'pi pi-plus'"
+          styleClass="app-btn-primary"
+          [loading]="guardando()"
+          [disabled]="cargando()"
+        />
+        <p-button type="button" label="Cancelar" styleClass="app-btn-secondary" routerLink="/ofertas" />
+      </div>
+    </form>
+  </section>
+</main>

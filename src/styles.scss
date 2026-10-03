@@ -188,6 +188,14 @@ p {
   padding: 0 30px 28px;
 }
 
+.table-wrapper.is-wide {
+  overflow-x: auto;
+}
+
+.app-table.offers-table .p-datatable-table {
+  min-width: 1180px;
+}
+
 .app-table .p-datatable-table {
   min-width: 900px;
 }
@@ -287,6 +295,18 @@ p {
   background: #fff4f3;
   border-color: #ffd0cc;
   color: #b42318;
+}
+
+/* Precio de compra y venta en el listado de ofertas. */
+.neutral-badge {
+  background: #f3f6fa;
+  border: 1px solid #e3e8ef;
+  border-radius: 999px;
+  color: #344054;
+  display: inline-flex;
+  font-weight: 500;
+  padding: 8px 15px;
+  white-space: nowrap;
 }
 
 .row-actions {

@@ -1,0 +1,115 @@
+<main class="page-shell">
+  <section class="games-panel">
+    <div class="panel-heading">
+      <div>
+        <h1>Ofertas</h1>
+        <p>Precios y existencias de videojuegos por proveedor y plataforma</p>
+      </div>
+      <div class="toolbar-actions">
+        <p-button
+          label="Agregar Oferta"
+          icon="pi pi-plus"
+          styleClass="app-btn-primary"
+          routerLink="/ofertas/nuevo"
+        />
+      </div>
+    </div>
+
+    <div class="table-wrapper is-wide">
+      <p-table
+        [value]="ofertas()"
+        [loading]="cargando()"
+        [rows]="10"
+        [paginator]="ofertas().length > 10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        dataKey="id"
+        styleClass="app-table offers-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="col-order">#</th>
+            <th class="col-id">ID</th>
+            <th>Videojuego</th>
+            <th>Proveedor</th>
+            <th>Plataforma</th>
+            <th>Compra</th>
+            <th>Venta</th>
+            <th>Cantidad</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-oferta let-indice="rowIndex">
+          <tr>
+            <td class="col-order">
+              <span class="id-pill">{{ indice + 1 }}</span>
+            </td>
+            <td class="col-id">{{ oferta.id }}</td>
+            <td class="game-title">{{ tituloDe(oferta) }}</td>
+            <td>
+              <span class="muted-value">{{ proveedorDe(oferta) }}</span>
+            </td>
+            <td>
+              @if (plataformaDe(oferta); as plataforma) {
+                <div class="platform-name">#{{ plataforma.id }} - {{ plataforma.nombre }}</div>
+                @if (plataforma.compania) {
+                  <div class="platform-company">{{ plataforma.compania }}</div>
+                }
+              } @else {
+                <span class="platform-company">Sin plataforma asignada</span>
+              }
+            </td>
+            <td>
+              <span class="neutral-badge">{{ precioDe(oferta.precioCompra) }}</span>
+            </td>
+            <td>
+              <span class="neutral-badge">{{ precioDe(oferta.precioVenta) }}</span>
+            </td>
+            <td>
+              <span class="stock-badge" [class.is-empty]="(oferta.cantidad ?? 0) === 0">
+                {{ oferta.cantidad ?? 0 }} disponibles
+              </span>
+            </td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <p-button
+                  icon="pi pi-pencil"
+                  styleClass="app-btn-icon"
+                  ariaLabel="Editar oferta"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  [routerLink]="['/ofertas', oferta.id, 'editar']"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  styleClass="app-btn-icon is-danger"
+                  ariaLabel="Eliminar oferta"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="confirmarEliminacion(oferta)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="9">
+              <div class="empty-state">
+                <h2>No hay ofertas registradas</h2>
+                <p>Agrega la primera oferta para administrar precios y existencias por proveedor.</p>
+                <p-button
+                  label="Agregar Oferta"
+                  icon="pi pi-plus"
+                  styleClass="app-btn-primary"
+                  routerLink="/ofertas/nuevo"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</main>
