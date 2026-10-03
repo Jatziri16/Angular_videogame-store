@@ -1,0 +1,90 @@
+<main class="page-shell">
+  <section class="games-panel">
+    <div class="panel-heading">
+      <div>
+        <h1>Plataformas</h1>
+        <p>Catálogo de consolas y servicios disponibles para el inventario</p>
+      </div>
+      <div class="toolbar-actions">
+        <p-button
+          label="Agregar Plataforma"
+          icon="pi pi-plus"
+          styleClass="app-btn-primary"
+          routerLink="/plataformas/nuevo"
+        />
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <p-table
+        [value]="plataformas()"
+        [loading]="cargando()"
+        [rows]="10"
+        [paginator]="plataformas().length > 10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        dataKey="id"
+        styleClass="app-table"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="col-order">#</th>
+            <th class="col-id">ID</th>
+            <th>Nombre</th>
+            <th>Compañía</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-plataforma let-indice="rowIndex">
+          <tr>
+            <td class="col-order">
+              <span class="id-pill">{{ indice + 1 }}</span>
+            </td>
+            <td class="col-id">{{ plataforma.id }}</td>
+            <td class="game-title">{{ plataforma.nombre }}</td>
+            <td>
+              <span class="muted-value">{{ companiaDe(plataforma) }}</span>
+            </td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <p-button
+                  icon="pi pi-pencil"
+                  styleClass="app-btn-icon"
+                  ariaLabel="Editar plataforma"
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  [routerLink]="['/plataformas', plataforma.id, 'editar']"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  styleClass="app-btn-icon is-danger"
+                  ariaLabel="Eliminar plataforma"
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  (onClick)="confirmarEliminacion(plataforma)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5">
+              <div class="empty-state">
+                <h2>No hay plataformas registradas</h2>
+                <p>Agrega la primera plataforma para ordenar el catálogo.</p>
+                <p-button
+                  label="Agregar Plataforma"
+                  icon="pi pi-plus"
+                  styleClass="app-btn-primary"
+                  routerLink="/plataformas/nuevo"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</main>

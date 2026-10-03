@@ -21,11 +21,21 @@
       (click)="cerrarMenu()"
       >Videojuegos</a
     >
-
-    @for (seccion of seccionesPendientes; track seccion) {
-      <span class="nav-link is-pending" title="Disponible por ahora solo en las pantallas JSP">{{
-        seccion
-      }}</span>
-    }
+    <span class="nav-link is-pending" title="Disponible por ahora solo en las pantallas JSP"
+      >Ofertas</span
+    >
+    <span class="nav-link is-pending" title="Disponible por ahora solo en las pantallas JSP"
+      >Proveedores</span
+    >
+    <a
+      class="nav-link"
+      routerLink="/plataformas"
+      routerLinkActive="is-active"
+      (click)="cerrarMenu()"
+      >Plataformas</a
+    >
+    <span class="nav-link is-pending" title="Disponible por ahora solo en las pantallas JSP"
+      >Relaciones</span
+    >
   </div>
 </nav>

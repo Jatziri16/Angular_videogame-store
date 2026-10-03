@@ -7,8 +7,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError, forkJoin, of } from 'rxjs';
 
 import { mensajeDeError } from '../../../../core/http/http-error.util';
-import { Plataforma } from '../../../../core/models/plataforma.model';
-import { PlataformasService } from '../../../../core/services/plataformas.service';
+import { Plataforma } from '../../../plataformas/models/plataforma.model';
+import { PlataformasService } from '../../../plataformas/services/plataformas.service';
 import { Videojuego } from '../../models/videojuego.model';
 import { VideojuegosService } from '../../services/videojuegos.service';
 

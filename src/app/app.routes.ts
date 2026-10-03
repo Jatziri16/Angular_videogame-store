@@ -7,5 +7,10 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/videojuegos/videojuegos.routes').then((m) => m.VIDEOJUEGOS_ROUTES)
   },
+  {
+    path: 'plataformas',
+    loadChildren: () =>
+      import('./features/plataformas/plataformas.routes').then((m) => m.PLATAFORMAS_ROUTES)
+  },
   { path: '**', redirectTo: 'videojuegos' }
 ];

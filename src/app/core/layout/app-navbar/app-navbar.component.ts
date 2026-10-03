@@ -7,9 +7,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './app-navbar.component.html'
 })
 export class AppNavbarComponent {
-  /** Secciones que aun viven solo en las pantallas JSP. */
-  readonly seccionesPendientes = ['Ofertas', 'Proveedores', 'Plataformas', 'Relaciones'];
-
   readonly menuAbierto = signal(false);
 
   alternarMenu(): void {

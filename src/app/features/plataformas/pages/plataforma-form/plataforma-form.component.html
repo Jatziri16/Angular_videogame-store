@@ -1,0 +1,77 @@
+<main class="page-shell form-shell">
+  <section class="form-panel">
+    <div class="form-heading">
+      <a class="back-link" routerLink="/plataformas">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+        <span>Volver</span>
+      </a>
+      <h1>{{ esEdicion() ? 'Editar Plataforma' : 'Nueva Plataforma' }}</h1>
+      <p>
+        {{
+          esEdicion()
+            ? 'Actualiza los datos de la plataforma seleccionada.'
+            : 'Registra una plataforma para clasificar videojuegos.'
+        }}
+      </p>
+    </div>
+
+    <form class="app-form" [formGroup]="form" (ngSubmit)="guardar()">
+      @if (esEdicion()) {
+        <div class="form-field">
+          <label for="identificador">ID</label>
+          <input pInputText id="identificador" type="text" [value]="id()" disabled />
+        </div>
+      }
+
+      <div class="form-field">
+        <label for="nombre">Nombre</label>
+        <input
+          pInputText
+          id="nombre"
+          formControlName="nombre"
+          placeholder="Ej. Nintendo Switch"
+          maxlength="30"
+          autocomplete="off"
+        />
+        @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+          <div class="field-error">El nombre es obligatorio.</div>
+        }
+        @if (form.controls.nombre.touched && form.controls.nombre.hasError('maxlength')) {
+          <div class="field-error">El nombre admite hasta 30 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="compania">Compañía</label>
+        <input
+          pInputText
+          id="compania"
+          formControlName="compania"
+          placeholder="Ej. Nintendo"
+          maxlength="40"
+          autocomplete="off"
+        />
+        @if (form.controls.compania.touched && form.controls.compania.hasError('maxlength')) {
+          <div class="field-error">La compañía admite hasta 40 caracteres.</div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <p-button
+          type="submit"
+          [label]="esEdicion() ? 'Actualizar' : 'Insertar'"
+          [icon]="esEdicion() ? 'pi pi-check' : 'pi pi-plus'"
+          styleClass="app-btn-primary"
+          [loading]="guardando()"
+          [disabled]="cargando()"
+        />
+        <p-button
+          type="button"
+          label="Cancelar"
+          styleClass="app-btn-secondary"
+          routerLink="/plataformas"
+        />
+      </div>
+    </form>
+  </section>
+</main>
